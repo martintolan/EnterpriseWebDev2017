@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import { Link } from 'react-router';
 
 
 var HomeAutoNavBar = React.createClass({
@@ -20,25 +21,20 @@ var HomeAutoNavBar = React.createClass({
         <Navbar inverse collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">React-Bootstrap</a>
+              <Link to="/">Dashboard</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} href="#">Link</NavItem>
-              <NavItem eventKey={2} href="#">Link</NavItem>
-              <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}>Action</MenuItem>
-                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-              </NavDropdown>
+              <NavItem eventKey={1}><Link to="heating">Heating</Link></NavItem>
+              <NavItem eventKey={2}><Link to="power">Power</Link></NavItem>
+              <NavItem eventKey={3}><Link to="water">Water</Link></NavItem>
+              <NavItem eventKey={4}><Link to="lights">Lighting</Link></NavItem>
             </Nav>
             <Nav pullRight>
-              <NavItem eventKey={1} href="#">Link Right</NavItem>
-              <NavItem eventKey={2} href="#">Link Right</NavItem>
+              <NavItem eventKey={5}><Link to="about">About</Link></NavItem>
+              <NavItem eventKey={6}><Link to="contact">Contact</Link></NavItem>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
