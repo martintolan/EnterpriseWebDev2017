@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
+import Label from 'react-bootstrap/lib/Label';
 import { Chart } from 'react-google-charts';
 import Thermometer from "react-thermometer";
 import Slider from 'react-rangeslider'
@@ -137,12 +138,93 @@ var HomeAutoTempSlider = React.createClass({
 
 //------------------------------------------------------
 //
+// Button control used to turn on and off the heating 
+// for a floor. Props contains the state of the heating 
+// for each floor and also the callback used to trigger 
+// the on-off request back to the parent. 
+//
+//------------------------------------------------------
+var HomeAutoHeatingOnOffButtons = React.createClass({
+	getInitialState: function() {
+    return { 
+    	heatingIdentifier: '',
+      heatingOn: false
+    };
+  }, // getInitialState
+
+  componentWillMount : function() {
+  	this.setState({ heatingOn: this.props.heatingState });
+  	this.setState({ heatingIdentifier: this.props.heatingIdentifier });
+  },
+
+  handleTurnHeatingOn : function(e) {
+    console.log("TurnHeatingOn button pressed for: " + this.state.heatingIdentifier);
+    e.preventDefault();
+
+    if(false == this.state.heatingOn) {
+    	console.log("Turning the Heating ON for the " + this.state.heatingIdentifier);
+    	this.props.turnHeatingOnHandler(this.state.heatingIdentifier);
+    	this.setState({ heatingOn: true });
+    }
+  }, // handleTurnHeatingOn
+
+  handleTurnHeatingOff : function(e) {
+    console.log("TurnHeatingOff button pressed for: " + this.state.heatingIdentifier);
+    e.preventDefault();
+
+    if(true == this.state.heatingOn) {
+    	console.log("Turning the Heating OFF for the " + this.state.heatingIdentifier);
+    	this.props.turnHeatingOffHandler(this.state.heatingIdentifier);
+    	this.setState({ heatingOn: false });
+    }
+  }, // handleTurnHeatingOff
+
+
+  render: function(){
+    console.log('heatingDashBoard.js->HomeAutoHeatingOnOffButtons->render()');
+    var fields = [
+      <div className='heatstatusbuttons' >
+				<Label bsStyle="success">Heating is On</Label>&nbsp;
+      	<ButtonToolbar>
+      		<input type="button" className='btn btn-success' value='Turn Heating On' onClick={this.handleTurnHeatingOn} />      		
+      		<input type="button" className='btn btn-info' value='Turn Heating Off' onClick={this.handleTurnHeatingOff} />
+      	</ButtonToolbar>
+      </div>
+    ];
+
+		if (this.state.heatingOn == false ) {
+	    fields = [
+	      <div className='heatstatusbuttons' >
+				<Label bsStyle="danger">Heating is Off</Label>&nbsp;
+      	<ButtonToolbar>
+      		<input type="button" className='btn btn-success' value='Turn Heating On' onClick={this.handleTurnHeatingOn} />      		
+      		<input type="button" className='btn btn-info' value='Turn Heating Off' onClick={this.handleTurnHeatingOff} />
+      	</ButtonToolbar>
+      </div>
+      ] ;
+	 	}
+
+    return (
+			<div>
+				{fields}
+			</div>
+    ); // return
+  } // render
+}); // HomeAutoHeatingOnOffButtons
+
+
+//------------------------------------------------------
+//
 // Grid control that houses all of the individual items 
 // for the heating information for a particular floor
 // based on the props passed into it.
 //
 //------------------------------------------------------
 var HomeAutoHeatingGrids = React.createClass({
+
+	updateHeatingRequest : function(area) {
+    console.log("Calling the updateHeatingRequest callback function..." + area);
+  }, 
 	
   render: function(){
     console.log('heatingDashBoard.js->HomeAutoHeatingGrids->render()');
@@ -152,6 +234,8 @@ var HomeAutoHeatingGrids = React.createClass({
     var graphColumns = this.props.heatingColumns;
     var graphRows = this.props.heatingRows;
     var thermostatSetting = this.props.thermostatCurrentValue;
+    var heatingArea = this.props.HeatingOptions.title;
+    var heatingOn = this.props.HeatingOnForThisArea;
 
     return (
 			<div>
@@ -178,10 +262,7 @@ var HomeAutoHeatingGrids = React.createClass({
 	        <Row className="show-grid">
 	          <Col md={6} mdPush={6}>
 	          {            
-	            <ButtonToolbar>
-	              <Button bsStyle="primary">Turn Heating On</Button>
-	              <Button bsStyle="info">Turn Heating Off</Button>
-	            </ButtonToolbar>            
+	            <HomeAutoHeatingOnOffButtons heatingState={heatingOn} heatingIdentifier={heatingArea} turnHeatingOnHandler={this.updateHeatingRequest} turnHeatingOffHandler={this.updateHeatingRequest}/>
 	          }</Col>
 
 	          <Col md={6} mdPull={6}>{
@@ -238,7 +319,9 @@ var HomeAutoTableContainer = React.createClass({
                 ['11:24', 17.2], ['11:23', 21.9], ['11:22', 24.3], ['11:21', 18.5], ['11:20', 22.5]
       ],
       thermostatTempValue_Upstairs: 20.5,
-      thermostatTempValue_Downstairs: 18.3
+      thermostatTempValue_Downstairs: 18.3,
+      HeatingOn_Upstairs: true,
+      HeatingOn_Downstairs: false,
     };
   }, // getInitialState
 
@@ -254,6 +337,8 @@ var HomeAutoTableContainer = React.createClass({
     var graphRowsUpStairs = this.state.temperature_upstairs_rows;
     var thermostatSettingDownStairs = this.state.thermostatTempValue_Downstairs;
     var thermostatSettingUpStairs = this.state.thermostatTempValue_Upstairs;
+    var HeatingOnForUpStairs = this.state.HeatingOn_Upstairs;
+    var HeatingOnForDownStairs = this.state.HeatingOn_Downstairs;
 
     return (
 			<div>
@@ -265,7 +350,13 @@ var HomeAutoTableContainer = React.createClass({
 	        </thead>
 	        <tbody>
 	        	<tr>
-		        	<td><HomeAutoHeatingGrids currentTemp={currentTempDownStairs} HeatingOptions={graphOptionsDownStairs} heatingColumns={graphColumns} heatingRows={graphRowsDownStairs} thermostatCurrentValue={thermostatSettingDownStairs}/>
+		        	<td><HomeAutoHeatingGrids 
+		        		currentTemp={currentTempDownStairs} 
+		        		HeatingOptions={graphOptionsDownStairs} 
+		        		heatingColumns={graphColumns} 
+		        		heatingRows={graphRowsDownStairs} 
+		        		thermostatCurrentValue={thermostatSettingDownStairs} 
+		        		HeatingOnForThisArea={HeatingOnForDownStairs} />
 		        	</td>
 	        	</tr>
 	        </tbody>
@@ -278,7 +369,13 @@ var HomeAutoTableContainer = React.createClass({
 	        </thead>
 	        <tbody>
 	        	<tr>
-		        	<td><HomeAutoHeatingGrids currentTemp={currentTempUpStairs} HeatingOptions={graphOptionsUpStairs} heatingColumns={graphColumns} heatingRows={graphRowsUpStairs} thermostatCurrentValue={thermostatSettingUpStairs}/>
+		        	<td><HomeAutoHeatingGrids 
+		        		currentTemp={currentTempUpStairs} 
+		        		HeatingOptions={graphOptionsUpStairs} 
+		        		heatingColumns={graphColumns} 
+		        		heatingRows={graphRowsUpStairs} 
+		        		thermostatCurrentValue={thermostatSettingUpStairs} 
+		        		HeatingOnForThisArea={HeatingOnForUpStairs}/>
 		        	</td>
 	        	</tr>
 	        </tbody>
