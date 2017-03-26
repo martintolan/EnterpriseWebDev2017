@@ -63,45 +63,45 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
     return (
       <div className="view-container">
         <Grid>
-        <Row>
-        <Col xs={6} md={4}>
-          <Thumbnail src="assets/HeatingType2.jpg" alt="242x200">
-            <h3>Heating Controls</h3>
-            <p>View and control of the heating system</p>
-            <p>
-              <input type="button" className="btn btn-primary" value="Heating" onClick={this.handleHeating} />
-            </p>
-          </Thumbnail>
-        </Col>
-        <Col xs={6} md={4}>
-          <Thumbnail src="./assets/PowerType1.jpg" alt="242x200">
-            <h3>Power Controls</h3>
-            <p>View Power Usage</p>
-            <p>
-              <input type="button" className="btn btn-primary" value="Power" onClick={this.handlePower} />
-            </p>
-          </Thumbnail>
-        </Col>
-        <Col xs={6} md={4}>
-          <Thumbnail src="./assets/WaterTap.jpg" alt="242x200">
-            <h3>Water Controls</h3>
-            <p>View Water Usage</p>
-            <p>
-              <input type="button" className="btn btn-primary" value="Water" onClick={this.handleWater} />
-            </p>
-          </Thumbnail>
-        </Col>
-        <Col xs={6} md={4}>
-          <Thumbnail src="./assets/LightBulbType1.jpg" alt="242x200">
-            <h3>Lighting Controls</h3>
-            <p>Manage Lighting</p>
-            <p>
-              <input type="button" className="btn btn-primary" value="Lights" onClick={this.handleLights} />
-            </p>
-          </Thumbnail>
-        </Col>
-        </Row>
-      </Grid>
+          <Row>
+            <Col xs={6} md={4}>
+              <Thumbnail src="assets/HeatingType2.jpg" alt="242x200">
+                <h3>Heating Controls</h3>
+                <p>View and control of the heating system</p>
+                <p>
+                  <input type="button" className="btn btn-primary" value="Heating" onClick={this.handleHeating} />
+                </p>
+              </Thumbnail>
+            </Col>
+            <Col xs={6} md={4}>
+              <Thumbnail src="./assets/PowerType1.jpg" alt="242x200">
+                <h3>Power Controls</h3>
+                <p>View Power Usage</p>
+                <p>
+                  <input type="button" className="btn btn-primary" value="Power" onClick={this.handlePower} />
+                </p>
+              </Thumbnail>
+            </Col>
+            <Col xs={6} md={4}>
+              <Thumbnail src="./assets/WaterTap.jpg" alt="242x200">
+                <h3>Water Controls</h3>
+                <p>View Water Usage</p>
+                <p>
+                  <input type="button" className="btn btn-primary" value="Water" onClick={this.handleWater} />
+                </p>
+              </Thumbnail>
+            </Col>
+            <Col xs={6} md={4}>
+              <Thumbnail src="./assets/LightBulbType1.jpg" alt="242x200">
+                <h3>Lighting Controls</h3>
+                <p>Manage Lighting</p>
+                <p>
+                  <input type="button" className="btn btn-primary" value="Lights" onClick={this.handleLights} />
+                </p>
+              </Thumbnail>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     ); // return
   } // render
