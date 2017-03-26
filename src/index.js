@@ -3,7 +3,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HomeAutomationApp from './App';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
-import HomeAutoNavBar from './uicomponents/HAS_navbar';
+import HomeAutoNavBar from './componentPages/HAS_navbar';
+import HeatingDashboard from './componentPages/heatingDashboard';
+import PowerDashboard from './componentPages/powerDashboard';
+import WaterDashboard from './componentPages/waterDashboard';
+import LightingDashboard from './componentPages/lightingDashboard';
 
 
 var App = React.createClass({
@@ -15,7 +19,47 @@ var App = React.createClass({
 			</div>
 		)
 	}
-});// var - AboutApp
+});// var - App
+
+var HeatingApp = React.createClass({
+	render : function() {
+		return (
+			<div>
+				<HeatingDashboard />
+			</div>
+		)
+	}
+});// var - HeatingApp
+
+var PowerApp = React.createClass({
+	render : function() {
+		return (
+			<div>
+				<PowerDashboard />
+			</div>
+		)
+	}
+});// var - PowerApp
+
+var WaterApp = React.createClass({
+	render : function() {
+		return (
+			<div>
+				<WaterDashboard />
+			</div>
+		)
+	}
+});// var - WaterApp
+
+var LightsApp = React.createClass({
+	render : function() {
+		return (
+			<div>
+				<LightingDashboard />
+			</div>
+		)
+	}
+});// var - LightsApp
 
 var AboutApp = React.createClass({
 	render : function() {
@@ -39,50 +83,6 @@ var ContactApp = React.createClass({
 		)
 	}
 });// var - ContactApp
-
-var HeatingApp = React.createClass({
-	render : function() {
-		return (
-			<div>
-				<h2>Heating App </h2>
-				{this.props.children}
-			</div>
-		)
-	}
-});// var - HeatingApp
-
-var PowerApp = React.createClass({
-	render : function() {
-		return (
-			<div>
-				<h2>Power App </h2>
-				{this.props.children}
-			</div>
-		)
-	}
-});// var - PowerApp
-
-var WaterApp = React.createClass({
-	render : function() {
-		return (
-			<div>
-				<h2>Water App </h2>
-				{this.props.children}
-			</div>
-		)
-	}
-});// var - WaterApp
-
-var LightsApp = React.createClass({
-	render : function() {
-		return (
-			<div>
-				<h2>Lights App </h2>
-				{this.props.children}
-			</div>
-		)
-	}
-});// var - LightsApp
 
 
 ReactDOM.render((
