@@ -1,10 +1,11 @@
 import React from 'react';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron';
-import Button from 'react-bootstrap/lib/Button';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Thumbnail from 'react-bootstrap/lib/Thumbnail';
+import apiHeatingStub from './test/stubAPIHeating'
+import apiHeating from './api/HeatingAPI'
 
 
 var HomeAutoJumboTron = React.createClass({
@@ -108,7 +109,27 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
 }) // HomeAutoUtilitiesThumbNails
 
 
-var HomeAutomationAppDashboard = React.createClass({
+var HomeAutomationAppDashboard = React.createClass({  
+  componentWillMount : function() {
+    console.log('App.js->HomeAutomationApp->componentWillMount() - Clearing Local Storage');
+    localStorage.clear();    
+  },
+
+  componentDidMount : function() {
+    console.log('App->HomeAutomationApp->componentDidMount()');
+    //var p = apiHeating.getHeatingDataDownStairs();
+    var p = apiHeatingStub.getHeatingDataDownStairs();
+    p.then( response => { 
+      //localStorage.setItem('DownStairsTemperatureData', JSON.stringify(response));
+      localStorage.setItem('DownStairsTemperatureData', response);
+    });
+    //var p2 = apiHeating.getHeatingDataUpStairs();
+    var p2 = apiHeatingStub.getHeatingDataUpStairs();
+    p2.then( response => { 
+      //localStorage.setItem('UpStairsTemperatureData', JSON.stringify(response));
+      localStorage.setItem('UpStairsTemperatureData', response);
+    });
+  },
   render: function(){
     console.log('App->HomeAutomationApp->render()');
 

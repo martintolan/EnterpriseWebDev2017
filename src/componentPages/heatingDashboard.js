@@ -1,16 +1,17 @@
 import React from 'react';
+import request from 'superagent' ; 
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Label from 'react-bootstrap/lib/Label';
 import { Chart } from 'react-google-charts';
 import Thermometer from "react-thermometer";
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-import apiHeating from './../test/stubAPIHeating'
+import apiHeatingStub from './../test/stubAPIHeating'
+import apiHeating from './../api/HeatingAPI'
 import defaultTemperatureData from './../config/defaultData'
 
 
@@ -169,7 +170,7 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
     console.log("TurnHeatingOn button pressed for: " + this.state.heatingIdentifier);
     e.preventDefault();
 
-    if(false == this.state.heatingOn) {
+    if(false === this.state.heatingOn) {
     	console.log("Turning the Heating ON for the " + this.state.heatingIdentifier);
     	this.props.turnHeatingOnHandler(this.state.heatingIdentifier);
     	this.setState({ heatingOn: true });
@@ -180,7 +181,7 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
     console.log("TurnHeatingOff button pressed for: " + this.state.heatingIdentifier);
     e.preventDefault();
 
-    if(true == this.state.heatingOn) {
+    if(true === this.state.heatingOn) {
     	console.log("Turning the Heating OFF for the " + this.state.heatingIdentifier);
     	this.props.turnHeatingOffHandler(this.state.heatingIdentifier);
     	this.setState({ heatingOn: false });
@@ -200,7 +201,7 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
       </div>
     ];
 
-		if (this.state.heatingOn == false ) {
+		if (false === this.state.heatingOn ) {
 	    fields = [
 	      <div className='heatstatusbuttons' >
 				<h1><Label bsStyle="danger">Heating is Off</Label>&nbsp;</h1>
@@ -233,12 +234,12 @@ var HomeAutoHeatingGrids = React.createClass({
   render: function(){
     console.log('heatingDashBoard.js->HomeAutoHeatingGrids->render()');
 
+    var titleForThisArea = this.props.titleForThisArea;
     var currentFloorTemp = this.props.currentTemp;
     var graphOptions = this.props.HeatingOptions;
     var graphColumns = this.props.heatingColumns;
     var graphRows = this.props.heatingRows;
     var thermostatSetting = this.props.thermostatCurrentValue;
-    var heatingArea = this.props.HeatingOptions.title;
     var heatingOn = this.props.HeatingOnForThisArea;
 
     return (
@@ -259,7 +260,7 @@ var HomeAutoHeatingGrids = React.createClass({
 
 	          <Col xsHidden md={6}>
 	          {
-	            <HomeAutoGraph options={graphOptions} columns={graphColumns} rows={graphRows}/>
+	            <HomeAutoGraph title={titleForThisArea} options={graphOptions} columns={graphColumns} rows={graphRows}/>
 	          }</Col>
 	        </Row>
 
@@ -268,7 +269,7 @@ var HomeAutoHeatingGrids = React.createClass({
 	          {            
 	            <HomeAutoHeatingOnOffButtons 
 	            	heatingState={heatingOn} 
-	            	heatingIdentifier={heatingArea} 
+	            	heatingIdentifier={titleForThisArea} 
 	            	turnHeatingOnHandler={this.props.turnHeatingOnHandler} 
 	            	turnHeatingOffHandler={this.props.turnHeatingOffHandler}
 	            />
@@ -276,7 +277,7 @@ var HomeAutoHeatingGrids = React.createClass({
 
 	          <Col md={6} mdPull={6}>{
 	            <HomeAutoTempSlider 
-	            	heatingIdentifier={heatingArea} 
+	            	heatingIdentifier={titleForThisArea} 
 	            	setPoint={thermostatSetting} 
 	            	changeTempHandler={this.props.changeTempHandler}
 	            />
@@ -299,21 +300,49 @@ var HomeAutoHeatingGrids = React.createClass({
 //
 //------------------------------------------------------
 var HomeAutoTableContainer = React.createClass({
+  getInitialState: function() {
+    return { 
+      upstairsHeatingOptions: { 
+        legend: true, 
+        title: 'Temperature - Upstairs',
+        hAxis: { title: 'Time' }, 
+        vAxis: { title: 'Temperature' } 
+      },
+      downstairsHeatingOptions: { 
+        legend: true, 
+        title: 'Temperature - Downstairs',
+        hAxis: { title: 'Time' }, 
+        vAxis: { title: 'Temperature' } 
+      },
+      heatingColumns: [
+        {
+          label: 'Time',
+          type: 'string',
+        },
+        {
+          label: 'Temperature',
+          type: 'number',
+        },
+      ]
+    };
+  }, // getInitialState
 
   render: function(){
     console.log('heatingDashBoard.js->HomeAutoTableContainer->render()');    
-		var currentTempDownStairs = this.props.heatingDataDownStairs.currentTemp;
-		var graphOptionsDownStairs = this.props.heatingDataDownStairs.heatingOptions;
-		var graphColumns = this.props.heatingDataDownStairs.heatingColumns;
-		var graphRowsDownStairs = this.props.heatingDataDownStairs.temperature_rows;
-		var thermostatSettingDownStairs = this.props.heatingDataDownStairs.thermostatTempValue;
-		var HeatingOnForDownStairs = this.props.heatingDataDownStairs.HeatingOn;
+		var currentTempDownStairs = this.props.dataDownStairs.currentTemp;
+		var graphOptionsDownStairs = this.state.downstairsHeatingOptions;
+		var graphColumns = this.state.heatingColumns;
+		var graphRowsDownStairs = this.props.dataDownStairs.temperature_rows;
+		var thermostatSettingDownStairs = this.props.dataDownStairs.thermostatTempValue;
+		var HeatingOnForDownStairs = this.props.dataDownStairs.HeatingOn;
+    var titleForDownStairs = this.props.dataDownStairs.title;
 
-		var currentTempUpStairs = this.props.heatingDataUpStairs.currentTemp;
-		var graphOptionsUpStairs = this.props.heatingDataUpStairs.heatingOptions;
-		var graphRowsUpStairs = this.props.heatingDataUpStairs.temperature_rows;
-		var thermostatSettingUpStairs = this.props.heatingDataUpStairs.thermostatTempValue;
-		var HeatingOnForUpStairs = this.props.heatingDataUpStairs.HeatingOn;
+		var currentTempUpStairs = this.props.dataUpStairs.currentTemp;
+		var graphOptionsUpStairs = this.state.upstairsHeatingOptions;
+		var graphRowsUpStairs = this.props.dataUpStairs.temperature_rows;
+		var thermostatSettingUpStairs = this.props.dataUpStairs.thermostatTempValue;
+		var HeatingOnForUpStairs = this.props.dataUpStairs.HeatingOn;
+    var titleForUpStairs = this.props.dataUpStairs.title;
 
     return (
 			<div>
@@ -332,6 +361,7 @@ var HomeAutoTableContainer = React.createClass({
 			        		heatingRows={graphRowsDownStairs} 
 			        		thermostatCurrentValue={thermostatSettingDownStairs} 
 			        		HeatingOnForThisArea={HeatingOnForDownStairs} 
+                  titleForThisArea={titleForDownStairs} 
 			        		changeTempHandler={this.props.changeTempHandler}
 			        		turnHeatingOnHandler={this.props.turnHeatingOnHandler} 
 			        		turnHeatingOffHandler={this.props.turnHeatingOffHandler}
@@ -355,6 +385,7 @@ var HomeAutoTableContainer = React.createClass({
 			        		heatingRows={graphRowsUpStairs} 
 			        		thermostatCurrentValue={thermostatSettingUpStairs} 
 			        		HeatingOnForThisArea={HeatingOnForUpStairs}
+                  titleForThisArea={titleForUpStairs} 
 			        		changeTempHandler={this.props.changeTempHandler}
 			        		turnHeatingOnHandler={this.props.turnHeatingOnHandler} 
 			        		turnHeatingOffHandler={this.props.turnHeatingOffHandler}
@@ -370,18 +401,26 @@ var HomeAutoTableContainer = React.createClass({
 
 
 var HeatingDashboard = React.createClass({
-	componentDidMount : function() {
-    var pDS = apiHeating.getHeatingDataDownStairs();
-    localStorage.clear();
-    pDS.then( response => { 
-      localStorage.setItem('temperatureDataDownStairs', JSON.stringify(response)) ;
-      this.setState({}) ;    
-    });
-    var pUS = apiHeating.getHeatingDataUpStairs();
-    pUS.then( response => { 
-      localStorage.setItem('temperatureDataUpStairs', JSON.stringify(response)) ;
-      this.setState({}) ;    
-    });
+  
+  componentDidMount : function() {
+    if(!localStorage.getItem('DownStairsTemperatureData'))
+    {
+      var p = apiHeating.getHeatingDataDownStairs();
+      //var p = apiHeatingStub.getHeatingDataDownStairs();
+      p.then( response => { 
+        localStorage.setItem('DownStairsTemperatureData', response);
+      });
+    }    
+
+    if(!localStorage.getItem('UpStairsTemperatureData'))
+    {
+      var p2 = apiHeating.getHeatingDataUpStairs();
+      //var p2 = apiHeatingStub.getHeatingDataUpStairs();
+      p2.then( response => { 
+        localStorage.setItem('UpStairsTemperatureData', response) ;
+        this.setState({});
+      });
+    }
   },
 
   turnHeatingOnRequest : function(area) {
@@ -400,15 +439,18 @@ var HeatingDashboard = React.createClass({
     console.log('heatingDashBoard.js->HeatingDashboard->render()');
     var convertedDefaultData = JSON.stringify(defaultTemperatureData);
     var defaultTempData = JSON.parse(convertedDefaultData);
-    var heatingDataDownStairs = localStorage.getItem('temperatureDataDownStairs') ? JSON.parse(localStorage.getItem('temperatureDataDownStairs')) : defaultTempData;
-    var heatingDataUpStairs = localStorage.getItem('temperatureDataUpStairs') ? JSON.parse(localStorage.getItem('temperatureDataUpStairs')) : defaultTempData ;
+
+    var heatingDataDownStairs = localStorage.getItem('DownStairsTemperatureData') ? JSON.parse(localStorage.getItem('DownStairsTemperatureData')) : defaultTempData;
+    var heatingDataUpStairs = localStorage.getItem('UpStairsTemperatureData') ? JSON.parse(localStorage.getItem('UpStairsTemperatureData')) : defaultTempData ;
+    console.log('---> heatingDataDownStairs: ' + JSON.stringify(heatingDataDownStairs));
+    console.log('---> heatingDataUpStairs: ' + JSON.stringify(heatingDataUpStairs));
 
     return (
 			<div>
 				<HomeAutoPageHeader />
 				<HomeAutoTableContainer 
-					heatingDataDownStairs={heatingDataDownStairs} 
-					heatingDataUpStairs={heatingDataUpStairs} 
+					dataDownStairs={heatingDataDownStairs} 
+					dataUpStairs={heatingDataUpStairs} 
 					changeTempHandler={this.modifyTemperatureRequest}
       		turnHeatingOnHandler={this.turnHeatingOnRequest} 
       		turnHeatingOffHandler={this.turnHeatingOffRequest}
