@@ -7,7 +7,6 @@ var apiHeating = {
     var promise = new Promise ((resolve,reject) => {
       request.get('http://localhost:3001/temperatureDataDownStairs').end(function(error, response) {
         if (response) {
-          //var json = JSON.parse(response.text);
           console.log("apiHeating->getHeatingDataDownStairs() ---Resolved OK...");
           console.log("apiHeating->response: " + response.text);
           resolve(response.text);
@@ -26,7 +25,6 @@ var apiHeating = {
     var promise = new Promise ((resolve,reject) => {
       request.get('http://localhost:3001/temperatureDataUpStairs').end(function(error, response) {
         if (response) {
-          //var json = JSON.parse(response.text);
           console.log("apiHeating->getHeatingDataUpStairs() ---Resolved OK...");
           console.log("apiHeating->response: " + response.text);
           resolve(response.text);
@@ -38,6 +36,28 @@ var apiHeating = {
       }.bind(this)); 
     }) ;
    return promise ;
+  },
+
+  switchHeating : function(areaId, heatingCommand) {
+    console.log("apiHeating->switchHeating() function called for area: " + areaId + " with heatingCommand: " + heatingCommand);
+    var promise = new Promise ((resolve,reject) => {
+      // Populate with the real API calls once backend is ready...
+      setTimeout(() => {
+        resolve(true);
+      }, 1000) ; 
+    });
+    return promise ;
+  },
+
+  updateHeatingSetPoint : function(areaId, value) {
+    console.log("apiHeating->updateHeatingSetPoint() function called for area: " + areaId + " with value: " + value);
+    var promise = new Promise ((resolve,reject) => {
+      // Populate with the real API calls once backend is ready...
+      setTimeout(() => {
+        resolve(true);
+      }, 1000) ; 
+    });
+    return promise ;
   }
 
 } // var apiHeating

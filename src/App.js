@@ -109,7 +109,13 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
 }) // HomeAutoUtilitiesThumbNails
 
 
-var HomeAutomationAppDashboard = React.createClass({  
+var HomeAutomationAppDashboard = React.createClass({
+  getInitialState: function() {
+    return { 
+      useStubAPI: false
+    };
+  }, // getInitialState
+
   componentWillMount : function() {
     console.log('App.js->HomeAutomationApp->componentWillMount() - Clearing Local Storage');
     localStorage.clear();    
@@ -117,19 +123,21 @@ var HomeAutomationAppDashboard = React.createClass({
 
   componentDidMount : function() {
     console.log('App->HomeAutomationApp->componentDidMount()');
-    //var p = apiHeating.getHeatingDataDownStairs();
-    var p = apiHeatingStub.getHeatingDataDownStairs();
+    var apiToUse = apiHeating;
+    if(true === this.state.useStubAPI)
+    {
+      apiToUse = apiHeatingStub;
+    }
+    var p = apiToUse.getHeatingDataDownStairs();
     p.then( response => { 
-      //localStorage.setItem('DownStairsTemperatureData', JSON.stringify(response));
       localStorage.setItem('DownStairsTemperatureData', response);
-    });
-    //var p2 = apiHeating.getHeatingDataUpStairs();
-    var p2 = apiHeatingStub.getHeatingDataUpStairs();
-    p2.then( response => { 
-      //localStorage.setItem('UpStairsTemperatureData', JSON.stringify(response));
-      localStorage.setItem('UpStairsTemperatureData', response);
+      var p2 = apiToUse.getHeatingDataUpStairs();
+      p2.then( response => { 
+        localStorage.setItem('UpStairsTemperatureData', response);
+      });
     });
   },
+
   render: function(){
     console.log('App->HomeAutomationApp->render()');
 

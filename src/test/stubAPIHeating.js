@@ -41,6 +41,28 @@ var apiHeatingStub = {
     }) ;
    return promise ;
    //return temperatureDataUpStairs;
+  },
+
+  switchHeating : function(areaId, heatingCommand) {
+    console.log("apiHeatingStub->switchHeating() function called for area: " + areaId + " with heatingCommand: " + heatingCommand);
+    var promise = new Promise ((resolve,reject) => {
+      // Populate with the real API calls once backend is ready...
+      setTimeout(() => {
+        resolve(true);
+      }, 1000) ; 
+    });
+    return promise ;
+  },
+
+  updateHeatingSetPoint : function(areaId, value) {
+    console.log("apiHeatingStub->updateHeatingSetPoint() function called for area: " + areaId + " with value: " + value);
+    var promise = new Promise ((resolve,reject) => {
+      // Populate with the real API calls once backend is ready...
+      setTimeout(() => {
+        resolve(true);
+      }, 1000) ; 
+    });
+    return promise ;
   }
 
 } // var apiHeatingStub

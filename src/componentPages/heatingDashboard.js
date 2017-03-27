@@ -115,6 +115,7 @@ var HomeAutoTempSlider = React.createClass({
   	console.log('handleTemperatureRequestChange event...');
     this.setState({ setPoint: value })
   },
+
   handleTemperatureRequestComplete: function(value) {
   	var requestedTemperature = this.state.setPoint;
   	console.log('handleTemperatureRequestComplete event...' + requestedTemperature);
@@ -401,38 +402,72 @@ var HomeAutoTableContainer = React.createClass({
 
 
 var HeatingDashboard = React.createClass({
-  
-  componentDidMount : function() {
-    if(!localStorage.getItem('DownStairsTemperatureData'))
-    {
-      var p = apiHeating.getHeatingDataDownStairs();
-      //var p = apiHeatingStub.getHeatingDataDownStairs();
-      p.then( response => { 
-        localStorage.setItem('DownStairsTemperatureData', response);
-      });
-    }    
+  getInitialState: function() {
+    return { 
+      useStubAPI: false
+    };
+  }, // getInitialState
 
-    if(!localStorage.getItem('UpStairsTemperatureData'))
+  componentWillMount : function() {
+    console.log('heatingDashBoard.js->HeatingDashboard->componentWillMount() - Clearing Local Storage');
+    //localStorage.clear();    
+  },
+
+  componentDidMount : function() {
+    if((!localStorage.getItem('DownStairsTemperatureData')) || (!localStorage.getItem('UpStairsTemperatureData')))
     {
-      var p2 = apiHeating.getHeatingDataUpStairs();
-      //var p2 = apiHeatingStub.getHeatingDataUpStairs();
-      p2.then( response => { 
-        localStorage.setItem('UpStairsTemperatureData', response) ;
-        this.setState({});
+      var apiToUse = apiHeating;
+      if(true === this.state.useStubAPI)
+      {
+        apiToUse = apiHeatingStub;
+      }
+      var p = apiToUse.getHeatingDataDownStairs();
+      p.then( response => { 
+        localStorage.deleteItem('DownStairsTemperatureData');
+        localStorage.setItem('DownStairsTemperatureData', response);
+        var p2 = apiToUse.getHeatingDataUpStairs();
+        p2.then( response => { 
+          localStorage.deleteItem('DownStairsTemperatureData');
+          localStorage.setItem('UpStairsTemperatureData', response) ;
+          this.setState({});
+        });
       });
     }
   },
-
+  
+  
   turnHeatingOnRequest : function(area) {
     console.log("Calling the turnHeatingOnRequest callback function..." + area);
+    var apiToUse = apiHeating;
+    if(true === this.state.useStubAPI)
+    {
+      apiToUse = apiHeatingStub;
+    }
+    apiToUse.switchHeating(area, 1).then ( response => {
+    }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
+
   }, // turnHeatingOnRequest
 
   turnHeatingOffRequest : function(area) {
     console.log("Calling the turnHeatingOffRequest callback function..." + area);
+    var apiToUse = apiHeating;
+    if(true === this.state.useStubAPI)
+    {
+      apiToUse = apiHeatingStub;
+    }
+    apiToUse.switchHeating(area, 0).then ( response => {
+    }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
   }, // turnHeatingOffRequest
 
-  modifyTemperatureRequest : function(area) {
+  modifyTemperatureRequest : function(area, value) {
     console.log("Calling the modifyTemperatureSetPointRequest callback function..." + area);
+    var apiToUse = apiHeating;
+    if(true === this.state.useStubAPI)
+    {
+      apiToUse = apiHeatingStub;
+    }
+    apiToUse.updateHeatingSetPoint(area, value).then ( response => {
+    }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
   }, // modifyTemperatureSetPointRequest
 	
   render: function(){
