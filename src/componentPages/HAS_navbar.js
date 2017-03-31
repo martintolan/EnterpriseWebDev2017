@@ -5,15 +5,15 @@ import NavItem from 'react-bootstrap/lib/NavItem';
 import { Link } from 'react-router';
 
 
-var HomeAutoNavBar = React.createClass({
-	getInitialState: function() {
+class HomeAutoNavBar extends React.Component{
+	getInitialState() {
 		return { 
 			version: '1.0.1', 
 			name: 'Home Automation System NavBar'
 		};
-	},// getInitialState
+	}// getInitialState
 
-	render : function() {
+	render() {
 		return (
 			<div className="view-container">
         <Navbar inverse collapseOnSelect>
@@ -41,7 +41,7 @@ var HomeAutoNavBar = React.createClass({
 
 	} // render
 
-}); // var - HomeAutoNavBar
+}; // var - HomeAutoNavBar
 
 
 export default HomeAutoNavBar;

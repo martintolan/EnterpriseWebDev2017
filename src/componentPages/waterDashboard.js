@@ -5,47 +5,35 @@
 //----------------------------------------------------------------------------
 import React from 'react';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
+import HomeAutoPageHeader from './HAS_pageheader';
 
-
-//------------------------------------------------------
+//----------------------------------------------------------------------------
 //
-// Page header control used to summarise the functionality.
+// Main class responsible for the Water Controls View
+// Parent to all of the items displayed in this page view.
 //
-//------------------------------------------------------
-class HomeAutoPageHeader extends React.Component {
-  render() {
-    console.log('waterDashboard.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>Water Control <small>Use this page to monitor and control the water elements in your home. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}; // class - HomeAutoPageHeader
-
-
+//----------------------------------------------------------------------------
 class WaterDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       useStubAPI: globalsVars.useStubAPI
     };   
-  }  
+  }// constructor()
 
   componentWillMount() {
-    console.log('waterDashboard.js->WaterDashboard->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
-  }
+    console.log('waterDashboard.js->WaterDashboard->componentWillMount()');
+    
+  }// componentWillMount()
 
   render(){
     console.log('waterDashboard.js->WaterDashboard->render()');
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='Water Control ' SmallText='Use this page to monitor and control the water elements in your home. '/>
 			</div>
+
     ); // return
   } // render()
 }; // class - WaterDashboard

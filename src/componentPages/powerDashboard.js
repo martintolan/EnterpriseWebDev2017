@@ -5,47 +5,36 @@
 //----------------------------------------------------------------------------
 import React from 'react';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
+import HomeAutoPageHeader from './HAS_pageheader';
 
 
-//------------------------------------------------------
+//----------------------------------------------------------------------------
 //
-// Page header control used to summarise the functionality.
+// Main class responsible for the Power Controls View
+// Parent to all of the items displayed in this page view.
 //
-//------------------------------------------------------
-class HomeAutoPageHeader extends React.Component {
-  render() {
-    console.log('powerDashboard.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>Power Control <small>Use this page to monitor and control the power elements in your home. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}; // class - HomeAutoPageHeader
-
-
+//----------------------------------------------------------------------------
 class PowerDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       useStubAPI: globalsVars.useStubAPI
     };   
-  }  
+  }// constructor()
 
   componentWillMount() {
-    console.log('powerDashBoard.js->PowerDashboard->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
-  }
+    console.log('powerDashBoard.js->PowerDashboard->componentWillMount()');
+
+  }// componentWillMount()
 
   render(){
     console.log('powerDashBoard.js->PowerDashboard->render()');
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='Power Control ' SmallText='Use this page to monitor and control the power elements in your home. '/>
 			</div>
+
     ); // return
   } // render()
 }; // class - PowerDashboard

@@ -5,25 +5,7 @@
 //----------------------------------------------------------------------------
 import React from 'react';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
-
-
-//------------------------------------------------------
-//
-// Page header control used to summarise the functionality.
-//
-//------------------------------------------------------
-class HomeAutoPageHeader extends React.Component {
-  render() {
-    console.log('aboutView.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>About... <small>About Page for the Home Automation App. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}; // class - HomeAutoPageHeader
+import HomeAutoPageHeader from './HAS_pageheader';
 
 
 class AboutView extends React.Component {
@@ -32,20 +14,21 @@ class AboutView extends React.Component {
     this.state = {
       useStubAPI: globalsVars.useStubAPI
     };   
-  }  
+  }// constructor()
 
   componentWillMount() {
-    console.log('aboutView.js->AboutView->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
-  }
+    console.log('aboutView.js->AboutView->componentWillMount()');
+
+  }// componentWillMount()
 
   render(){
     console.log('aboutView.js->AboutView->render()');
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='About... ' SmallText='About Page for the Home Automation App. '/>
 			</div>
+
     ); // return
   } // render()
 }; // class - AboutView

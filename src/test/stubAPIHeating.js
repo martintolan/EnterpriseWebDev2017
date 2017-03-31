@@ -1,3 +1,4 @@
+import React from 'react';
 import _ from 'lodash';
 
 
@@ -22,8 +23,8 @@ var temperatureDataUpStairs = {
 };
 
 
-var apiHeatingStub = {
-  getHeatingDataDownStairs : function() {
+class APIHeatingStub extends React.Component {
+  getHeatingDataDownStairs() {
     console.log("apiHeatingStub->getHeatingDataDownStairs() function called...");
     var promise = new Promise ((resolve,reject) => {
     	var json = JSON.stringify(temperatureDataDownStairs);
@@ -31,9 +32,9 @@ var apiHeatingStub = {
     }) ;
    return promise ;
    //return temperatureDataDownStairs;
-  },
+  }// getHeatingDataDownStairs()
 
-  getHeatingDataUpStairs : function() {
+  getHeatingDataUpStairs() {
     console.log("apiHeatingStub->getHeatingDataUpStairs() function called...");
     var promise = new Promise ((resolve,reject) => {
     	var json = JSON.stringify(temperatureDataUpStairs);
@@ -41,9 +42,9 @@ var apiHeatingStub = {
     }) ;
    return promise ;
    //return temperatureDataUpStairs;
-  },
+  }// getHeatingDataUpStairs()
 
-  switchHeating : function(areaId, heatingCommand) {
+  switchHeating(areaId, heatingCommand) {
     console.log("apiHeatingStub->switchHeating() function called for area: " + areaId + " with heatingCommand: " + heatingCommand);
     var promise = new Promise ((resolve,reject) => {
       // Populate with the real API calls once backend is ready...
@@ -52,9 +53,9 @@ var apiHeatingStub = {
       }, 1000) ; 
     });
     return promise ;
-  },
+  }// switchHeating()
 
-  updateHeatingSetPoint : function(areaId, value) {
+  updateHeatingSetPoint(areaId, value) {
     console.log("apiHeatingStub->updateHeatingSetPoint() function called for area: " + areaId + " with value: " + value);
     var promise = new Promise ((resolve,reject) => {
       // Populate with the real API calls once backend is ready...
@@ -63,8 +64,8 @@ var apiHeatingStub = {
       }, 1000) ; 
     });
     return promise ;
-  }
+  }// updateHeatingSetPoint()
 
-} // var apiHeatingStub
+} //class - APIHeatingStub
 
-export default apiHeatingStub;
+export default APIHeatingStub;

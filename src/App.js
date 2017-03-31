@@ -11,8 +11,8 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Thumbnail from 'react-bootstrap/lib/Thumbnail';
-import apiHeatingStub from './test/stubAPIHeating'
-import apiHeating from './api/HeatingAPI'
+import APIHeatingStub from './test/stubAPIHeating'
+import APIHeating from './api/HeatingAPI'
 
 
 var HomeAutoJumboTron = React.createClass({
@@ -119,26 +119,28 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
 var HomeAutomationAppDashboard = React.createClass({
   getInitialState: function() {
     return { 
-      useStubAPI: globalsVars.useStubAPI
+      useStubAPI: globalsVars.useStubAPI,
+      apiToUse: null
     };
   }, // getInitialState
 
   componentWillMount : function() {
     console.log('App.js->HomeAutomationApp->componentWillMount() - Clearing Local Storage');
-    localStorage.clear();    
+    if(false === this.state.useStubAPI) {
+      this.setState({ apiToUse: new APIHeating() });
+    }
+    else {
+      this.setState({ apiToUse: new APIHeatingStub() });
+    }
+    localStorage.clear();
   },
 
   componentDidMount : function() {
     console.log('App->HomeAutomationApp->componentDidMount()');
-    var apiToUse = apiHeating;
-    if(true === this.state.useStubAPI)
-    {
-      apiToUse = apiHeatingStub;
-    }
-    var p = apiToUse.getHeatingDataDownStairs();
+    var p = this.state.apiToUse.getHeatingDataDownStairs();
     p.then( response => { 
       localStorage.setItem('DownStairsTemperatureData', response);
-      var p2 = apiToUse.getHeatingDataUpStairs();
+      var p2 = this.state.apiToUse.getHeatingDataUpStairs();
       p2.then( response => { 
         localStorage.setItem('UpStairsTemperatureData', response);
       });

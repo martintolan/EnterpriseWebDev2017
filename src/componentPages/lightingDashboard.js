@@ -5,26 +5,7 @@
 //----------------------------------------------------------------------------
 import React from 'react';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
-
-
-//------------------------------------------------------
-//
-// Page header control used to summarise the functionality.
-//
-//------------------------------------------------------
-class HomeAutoPageHeader extends React.Component {
-  render() {
-    console.log('lightingDashboard.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>Lighting Control <small>Use this page to monitor and control the lighting elements in your home. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}; // class - HomeAutoPageHeader
-
+import HomeAutoPageHeader from './HAS_pageheader';
 
 //----------------------------------------------------------------------------
 //
@@ -38,20 +19,21 @@ class LightingDashboard extends React.Component {
     this.state = {
       useStubAPI: globalsVars.useStubAPI
     };   
-  }  
+  }// constructor()
 
   componentWillMount() {
-    console.log('lightingDashboard.js->LightingDashboard->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
-  }
+    console.log('lightingDashboard.js->LightingDashboard->componentWillMount()');
+
+  }// componentWillMount()
 
   render() {
     console.log('lightingDashboard.js->LightingDashboard->render()');
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='Lighting Control ' SmallText='Use this page to monitor and control the lighting elements in your home. '/>
 			</div>
+
     ); // return
   } // render()
 }; // class - LightingDashboard

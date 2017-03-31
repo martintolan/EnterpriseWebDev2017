@@ -5,25 +5,7 @@
 //----------------------------------------------------------------------------
 import React from 'react';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
-
-
-//------------------------------------------------------
-//
-// Page header control used to summarise the functionality.
-//
-//------------------------------------------------------
-class HomeAutoPageHeader extends React.Component {
-  render() {
-    console.log('contactView.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>Contact... <small>Contact Page for the Home Automation App. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}; // class - HomeAutoPageHeader
+import HomeAutoPageHeader from './HAS_pageheader';
 
 
 class ContactView extends React.Component {
@@ -32,20 +14,21 @@ class ContactView extends React.Component {
     this.state = {
       useStubAPI: globalsVars.useStubAPI
     };   
-  }  
+  }// constructor()
 
   componentWillMount() {
-    console.log('contactView.js->ContactView->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
-  }
+    console.log('contactView.js->ContactView->componentWillMount()');
+
+  }// componentWillMount()
 
   render(){
     console.log('contactView.js->ContactView->render()');
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='Contact... ' SmallText='Contact Page for the Home Automation App. '/>
 			</div>
+
     ); // return
   } // render()
 }; // class - contactView

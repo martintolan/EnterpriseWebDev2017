@@ -6,7 +6,7 @@
 import React from 'react';
 import request from 'superagent';
 import globalsVars from './../config/globals';
-import PageHeader from 'react-bootstrap/lib/PageHeader';
+import HomeAutoPageHeader from './HAS_pageheader';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -16,27 +16,9 @@ import { Chart } from 'react-google-charts';
 import Thermometer from "react-thermometer";
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
-import apiHeatingStub from './../test/stubAPIHeating'
-import apiHeating from './../api/HeatingAPI'
+import APIHeatingStub from './../test/stubAPIHeating'
+import APIHeating from './../api/HeatingAPI'
 import defaultTemperatureData from './../config/defaultData'
-
-
-//------------------------------------------------------
-//
-// Page header control used to summarise the functionality.
-//
-//------------------------------------------------------
-var HomeAutoPageHeader = React.createClass({
-  render: function(){
-    console.log('heatingDashBoard.js->HomeAutoPageHeader->render()');
-
-    return (
-			<div>
-				<PageHeader>Heating Control <small>Use this page to monitor and control the heating elements in your home. </small></PageHeader>
-			</div>
-    ); // return
-  } // render()
-}); // class - HomeAutoPageHeader
 
 
 //------------------------------------------------------
@@ -416,28 +398,30 @@ var HomeAutoTableContainer = React.createClass({
 var HeatingDashboard = React.createClass({
   getInitialState: function() {
     return { 
-      useStubAPI: globalsVars.useStubAPI
+      useStubAPI: globalsVars.useStubAPI,
+      apiToUse: null
     };
   }, // getInitialState
 
   componentWillMount : function() {
     console.log('heatingDashBoard.js->HeatingDashboard->componentWillMount() - Clearing Local Storage');
-    //localStorage.clear();    
+    if(false === this.state.useStubAPI) {
+      this.setState({ apiToUse: new APIHeating() });
+    }
+    else {
+      this.setState({ apiToUse: new APIHeatingStub() });
+    }
+    //localStorage.clear();
   },
 
   componentDidMount : function() {
     if((!localStorage.getItem('DownStairsTemperatureData')) || (!localStorage.getItem('UpStairsTemperatureData')))
     {
-      var apiToUse = apiHeating;
-      if(true === this.state.useStubAPI)
-      {
-        apiToUse = apiHeatingStub;
-      }
-      var p = apiToUse.getHeatingDataDownStairs();
+      var p = this.state.apiToUse.getHeatingDataDownStairs();
       p.then( response => { 
         localStorage.deleteItem('DownStairsTemperatureData');
         localStorage.setItem('DownStairsTemperatureData', response);
-        var p2 = apiToUse.getHeatingDataUpStairs();
+        var p2 = this.state.apiToUse.getHeatingDataUpStairs();
         p2.then( response => { 
           localStorage.deleteItem('DownStairsTemperatureData');
           localStorage.setItem('UpStairsTemperatureData', response) ;
@@ -450,35 +434,20 @@ var HeatingDashboard = React.createClass({
   
   turnHeatingOnRequest : function(area) {
     console.log("Calling the turnHeatingOnRequest callback function..." + area);
-    var apiToUse = apiHeating;
-    if(true === this.state.useStubAPI)
-    {
-      apiToUse = apiHeatingStub;
-    }
-    apiToUse.switchHeating(area, 1).then ( response => {
+    this.state.apiToUse.switchHeating(area, 1).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
 
   }, // turnHeatingOnRequest
 
   turnHeatingOffRequest : function(area) {
     console.log("Calling the turnHeatingOffRequest callback function..." + area);
-    var apiToUse = apiHeating;
-    if(true === this.state.useStubAPI)
-    {
-      apiToUse = apiHeatingStub;
-    }
-    apiToUse.switchHeating(area, 0).then ( response => {
+    this.state.apiToUse.switchHeating(area, 0).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
   }, // turnHeatingOffRequest
 
   modifyTemperatureRequest : function(area, value) {
     console.log("Calling the modifyTemperatureSetPointRequest callback function..." + area);
-    var apiToUse = apiHeating;
-    if(true === this.state.useStubAPI)
-    {
-      apiToUse = apiHeatingStub;
-    }
-    apiToUse.updateHeatingSetPoint(area, value).then ( response => {
+    this.state.apiToUse.updateHeatingSetPoint(area, value).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
   }, // modifyTemperatureSetPointRequest
 	
@@ -494,7 +463,7 @@ var HeatingDashboard = React.createClass({
 
     return (
 			<div>
-				<HomeAutoPageHeader />
+				<HomeAutoPageHeader HeaderText='Heating Control ' SmallText='Use this page to monitor and control the heating elements in your home. '/>/>
 				<HomeAutoTableContainer 
 					dataDownStairs={heatingDataDownStairs} 
 					dataUpStairs={heatingDataUpStairs} 

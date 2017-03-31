@@ -1,8 +1,8 @@
 import React from 'react';
 import request from 'superagent' ; 
 
-var apiHeating = {
-  getHeatingDataDownStairs : function() {
+class APIHeating extends React.Component {
+  getHeatingDataDownStairs() {
     console.log("apiHeating->getHeatingDataDownStairs() function called...");
     var promise = new Promise ((resolve,reject) => {
       request.get('http://localhost:3001/temperatureDataDownStairs').end(function(error, response) {
@@ -18,9 +18,9 @@ var apiHeating = {
       }.bind(this)); 
     }) ;
    return promise ;
-  },
+  }// getHeatingDataDownStairs()
 
-  getHeatingDataUpStairs : function() {
+  getHeatingDataUpStairs() {
     console.log("apiHeating->getHeatingDataUpStairs() function called...");
     var promise = new Promise ((resolve,reject) => {
       request.get('http://localhost:3001/temperatureDataUpStairs').end(function(error, response) {
@@ -36,9 +36,9 @@ var apiHeating = {
       }.bind(this)); 
     }) ;
    return promise ;
-  },
+  }// getHeatingDataUpStairs()
 
-  switchHeating : function(areaId, heatingCommand) {
+  switchHeating(areaId, heatingCommand) {
     console.log("apiHeating->switchHeating() function called for area: " + areaId + " with heatingCommand: " + heatingCommand);
     var promise = new Promise ((resolve,reject) => {
       // Populate with the real API calls once backend is ready...
@@ -47,9 +47,9 @@ var apiHeating = {
       }, 1000) ; 
     });
     return promise ;
-  },
+  }// switchHeating()
 
-  updateHeatingSetPoint : function(areaId, value) {
+  updateHeatingSetPoint(areaId, value) {
     console.log("apiHeating->updateHeatingSetPoint() function called for area: " + areaId + " with value: " + value);
     var promise = new Promise ((resolve,reject) => {
       // Populate with the real API calls once backend is ready...
@@ -58,8 +58,8 @@ var apiHeating = {
       }, 1000) ; 
     });
     return promise ;
-  }
+  }// updateHeatingSetPoint()
 
 } // var apiHeating
 
-export default apiHeating;
+export default APIHeating;
