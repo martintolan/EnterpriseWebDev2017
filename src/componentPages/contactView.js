@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// powerDashboard.js
-// View containing all of the information and data structures for the power
+// contactView.js
+// View containing all of the information for the contact view
 // aspects of the Home Automation Application. 
 //----------------------------------------------------------------------------
 import React from 'react';
@@ -15,18 +15,18 @@ import PageHeader from 'react-bootstrap/lib/PageHeader';
 //------------------------------------------------------
 class HomeAutoPageHeader extends React.Component {
   render() {
-    console.log('powerDashboard.js->HomeAutoPageHeader->render()');
+    console.log('contactView.js->HomeAutoPageHeader->render()');
 
     return (
 			<div>
-				<PageHeader>Power Control <small>Use this page to monitor and control the power elements in your home. </small></PageHeader>
+				<PageHeader>Contact... <small>Contact Page for the Home Automation App. </small></PageHeader>
 			</div>
     ); // return
   } // render()
 }; // class - HomeAutoPageHeader
 
 
-class PowerDashboard extends React.Component {
+class ContactView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +35,12 @@ class PowerDashboard extends React.Component {
   }  
 
   componentWillMount() {
-    console.log('powerDashBoard.js->PowerDashboard->componentWillMount() - Clearing Local Storage');
+    console.log('contactView.js->ContactView->componentWillMount() - Clearing Local Storage');
     //localStorage.clear();    
   }
 
   render(){
-    console.log('powerDashBoard.js->PowerDashboard->render()');
+    console.log('contactView.js->ContactView->render()');
 
     return (
 			<div>
@@ -48,7 +48,7 @@ class PowerDashboard extends React.Component {
 			</div>
     ); // return
   } // render()
-}; // class - PowerDashboard
+}; // class - contactView
 
 
-export default PowerDashboard;
+export default ContactView;

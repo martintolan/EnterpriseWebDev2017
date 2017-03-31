@@ -1,3 +1,9 @@
+//----------------------------------------------------------------------------
+// index.js
+// The loaded javascript when the application starts up in the browser. This
+// app will form the structure and define the routes for all of the views 
+// within the Home Automation Application.
+//----------------------------------------------------------------------------
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,81 +14,88 @@ import HeatingDashboard from './componentPages/heatingDashboard';
 import PowerDashboard from './componentPages/powerDashboard';
 import WaterDashboard from './componentPages/waterDashboard';
 import LightingDashboard from './componentPages/lightingDashboard';
+import AboutView from './componentPages/aboutView';
+import ContactView from './componentPages/contactView';
 
 
-var App = React.createClass({
-	render : function() {
+class App extends React.Component {
+	constructor(props) {
+    super(props);
+    this.state = {
+      useStubAPI: false
+    };
+  }// constructor()
+
+	render() {
 		return (
 			<div>
 				<HomeAutoNavBar />
 				{this.props.children}
 			</div>
-		)
-	}
-});// var - App
+		);
+	}// render()
+};// class - App
 
-var HeatingApp = React.createClass({
-	render : function() {
+class HeatingApp extends React.Component {
+	render() {
 		return (
 			<div>
 				<HeatingDashboard />
 			</div>
-		)
-	}
-});// var - HeatingApp
+		);
+	}// render()
+};// class - HeatingApp
 
-var PowerApp = React.createClass({
-	render : function() {
+class PowerApp extends React.Component {
+	render() {
 		return (
 			<div>
 				<PowerDashboard />
 			</div>
-		)
-	}
-});// var - PowerApp
+		);
+	}// render()
+};// class - PowerApp
 
-var WaterApp = React.createClass({
-	render : function() {
+class WaterApp extends React.Component {
+	render() {
 		return (
 			<div>
 				<WaterDashboard />
 			</div>
-		)
-	}
-});// var - WaterApp
+		);
+	}// render()
+};// class - WaterApp
 
-var LightsApp = React.createClass({
-	render : function() {
+class LightsApp extends React.Component {
+	render() {
 		return (
 			<div>
 				<LightingDashboard />
 			</div>
-		)
-	}
-});// var - LightsApp
+		);
+	}// render()
+};// class - LightsApp
 
-var AboutApp = React.createClass({
-	render : function() {
+class AboutApp extends React.Component {
+	render() {
 		return (
 			<div>
-				<h2>About Page for the Home Automation App </h2>
-				{this.props.children}
+				<AboutView />
 			</div>
-		)
-	}
-});// var - AboutApp
+		);
+	}// return
+};// class - AboutApp
 
 
-var ContactApp = React.createClass({
-	render : function() {
+class ContactApp extends React.Component {
+	render() {
 		return (
 			<div>
-				<h2>Contact Page for the Home Automation App </h2>
-				{this.props.children}
+				<ContactView />
 			</div>
-		)
-	}
-});// var - ContactApp
+		);
+	}// render()
+};// class - ContactApp
 
 
 ReactDOM.render((
@@ -99,4 +112,4 @@ ReactDOM.render((
 	</Router>
 	),
   document.getElementById('root')
-);
+);// ReactDOM.Render()

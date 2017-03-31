@@ -1,5 +1,11 @@
+//----------------------------------------------------------------------------
+// heatingDashboard.js
+// View containing all of the information and data structures for the heating
+// aspects of the Home Automation Application. 
+//----------------------------------------------------------------------------
 import React from 'react';
-import request from 'superagent' ; 
+import request from 'superagent';
+import globalsVars from './../config/globals';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
@@ -29,8 +35,8 @@ var HomeAutoPageHeader = React.createClass({
 				<PageHeader>Heating Control <small>Use this page to monitor and control the heating elements in your home. </small></PageHeader>
 			</div>
     ); // return
-  } // render
-}); // HomeAutoPageHeader
+  } // render()
+}); // class - HomeAutoPageHeader
 
 
 //------------------------------------------------------
@@ -57,8 +63,8 @@ var HomeAutoThometer = React.createClass({
         />
       </div> 
     ); // return
-  } // render
-}); // HomeAutoThometer
+  } // render()
+}); // class - HomeAutoThometer
 
 
 //------------------------------------------------------
@@ -86,8 +92,8 @@ var HomeAutoGraph = React.createClass({
         />
       </div>
     ); // return
-  } // render
-}); // HomeAutoGraph
+  } // render()
+}); // class - HomeAutoGraph
 
 
 //------------------------------------------------------
@@ -142,8 +148,8 @@ var HomeAutoTempSlider = React.createClass({
         </div>
       </div>
     ); // return
-  } // render
-}); // HomeAutoTempSlider
+  } // render()
+}); // class - HomeAutoTempSlider
 
 
 //------------------------------------------------------
@@ -219,8 +225,8 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
 				{fields}
 			</div>
     ); // return
-  } // render
-}); // HomeAutoHeatingOnOffButtons
+  } // render()
+}); // class - HomeAutoHeatingOnOffButtons
 
 
 //------------------------------------------------------
@@ -287,8 +293,8 @@ var HomeAutoHeatingGrids = React.createClass({
 	      </Grid>
 			</div>
     ); // return
-  } // render
-}); // HomeAutoHeatingGrids
+  } // render()
+}); // class - HomeAutoHeatingGrids
 
 
 //------------------------------------------------------
@@ -397,14 +403,20 @@ var HomeAutoTableContainer = React.createClass({
 	      </table>
 			</div>
     ); // return
-  } // render
-}); // HomeAutoTableContainer
+  } // render()
+}); // class - HomeAutoTableContainer
 
 
+//----------------------------------------------------------------------------
+//
+// Main class responsible for the Heating Controls View
+// Parent to all of the items displayed in this page view.
+//
+//----------------------------------------------------------------------------
 var HeatingDashboard = React.createClass({
   getInitialState: function() {
     return { 
-      useStubAPI: false
+      useStubAPI: globalsVars.useStubAPI
     };
   }, // getInitialState
 
@@ -492,8 +504,8 @@ var HeatingDashboard = React.createClass({
 				/>
 			</div>
     ); // return
-  } // render
-}); // HeatingDashboard
+  } // render()
+}); // class - HeatingDashboard
 
 
 export default HeatingDashboard;

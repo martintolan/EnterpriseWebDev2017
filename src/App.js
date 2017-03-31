@@ -1,4 +1,11 @@
+//----------------------------------------------------------------------------
+// App.js
+// Landing page view for the Home Automation Application. 
+// Contains the Thumbnail tiles for each of the home automation views being 
+// monitored. 
+//----------------------------------------------------------------------------
 import React from 'react';
+import globalsVars from './config/globals';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
@@ -112,7 +119,7 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
 var HomeAutomationAppDashboard = React.createClass({
   getInitialState: function() {
     return { 
-      useStubAPI: false
+      useStubAPI: globalsVars.useStubAPI
     };
   }, // getInitialState
 

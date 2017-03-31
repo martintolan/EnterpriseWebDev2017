@@ -141,8 +141,8 @@ One of the many views that have been routed BUT have not been implemented yet!
 
 
 
-[image1]: ./HierarchicalComponentDesign-HomeAutomationAppDashboard.jpg
-[image2]: ./HierarchicalComponentDesign-HeatingDashboard.jpg
-[image3]: ./ScreenShot1-HomeAutomationAppDashboard.jpg
-[image4]: ./ScreenShot2-HeatingDashboard.jpg
-[image5]: ./ScreenShot3-PowerDashboard.jpg
+[image1]: ./github_assets/HierarchicalComponentDesign-HomeAutomationAppDashboard.jpg
+[image2]: ./github_assets/HierarchicalComponentDesign-HeatingDashboard.jpg
+[image3]: ./github_assets/ScreenShot1-HomeAutomationAppDashboard.jpg
+[image4]: ./github_assets/ScreenShot2-HeatingDashboard.jpg
+[image5]: ./github_assets/ScreenShot3-PowerDashboard.jpg
