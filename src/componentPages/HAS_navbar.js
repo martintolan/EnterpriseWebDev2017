@@ -6,13 +6,6 @@ import { Link } from 'react-router';
 
 
 class HomeAutoNavBar extends React.Component{
-	getInitialState() {
-		return { 
-			version: '1.0.1', 
-			name: 'Home Automation System NavBar'
-		};
-	}// getInitialState
-
 	render() {
 		return (
 			<div className="view-container">

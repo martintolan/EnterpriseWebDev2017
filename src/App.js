@@ -15,15 +15,14 @@ import APIHeatingStub from './test/stubAPIHeating'
 import APIHeating from './api/HeatingAPI'
 
 
-var HomeAutoJumboTron = React.createClass({
-
-  handleLearnMore: function(e) {
+class HomeAutoJumboTron extends React.Component{
+  handleLearnMore(e) {
     console.log("LearnMore button from the JumboTron pressed...");
     e.preventDefault();
     window.location = '/about';
-  },
+  }
 
-  render: function(){
+  render(){
     console.log('App->HomeAutoJumboTron->render()');
     
     return (
@@ -36,36 +35,35 @@ var HomeAutoJumboTron = React.createClass({
       </div>
     ); // return
   } // render
-}) // HomeAutoJumboTron
+}; // HomeAutoJumboTron
 
 
-var HomeAutoUtilitiesThumbNails = React.createClass({
-
-  handleHeating: function(e) {
+class HomeAutoUtilitiesThumbNails extends React.Component{
+  handleHeating(e) {
     console.log("Heating button pressed...");
     e.preventDefault();
     window.location = '/heating';
-  },
+  }
 
-  handlePower: function(e) {
+  handlePower(e) {
     console.log("Power button pressed...");
     e.preventDefault();
     window.location = '/power';
-  },
+  }
 
-  handleWater: function(e) {
+  handleWater(e) {
     console.log("Water button pressed...");
     e.preventDefault();
     window.location = '/water';
-  },
+  }
 
-  handleLights: function(e) {
+  handleLights(e) {
     console.log("Lights button pressed...");
     e.preventDefault();
     window.location = '/lights';
-  },
+  }
 
-  render: function(){
+  render(){
     console.log('App->HomeAutoUtilitiesThumbNails->render()');
     
     return (
@@ -113,18 +111,19 @@ var HomeAutoUtilitiesThumbNails = React.createClass({
       </div>
     ); // return
   } // render
-}) // HomeAutoUtilitiesThumbNails
+}; // HomeAutoUtilitiesThumbNails
 
 
-var HomeAutomationAppDashboard = React.createClass({
-  getInitialState: function() {
-    return { 
+class HomeAutomationAppDashboard extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       useStubAPI: globalsVars.useStubAPI,
       apiToUse: null
     };
-  }, // getInitialState
+  }// constructor()
 
-  componentWillMount : function() {
+  componentWillMount() {
     console.log('App.js->HomeAutomationApp->componentWillMount() - Clearing Local Storage');
     if(false === this.state.useStubAPI) {
       this.setState({ apiToUse: new APIHeating() });
@@ -133,9 +132,9 @@ var HomeAutomationAppDashboard = React.createClass({
       this.setState({ apiToUse: new APIHeatingStub() });
     }
     localStorage.clear();
-  },
+  }// componentWillMount()
 
-  componentDidMount : function() {
+  componentDidMount() {
     console.log('App->HomeAutomationApp->componentDidMount()');
     var p = this.state.apiToUse.getHeatingDataDownStairs();
     p.then( response => { 
@@ -145,9 +144,9 @@ var HomeAutomationAppDashboard = React.createClass({
         localStorage.setItem('UpStairsTemperatureData', response);
       });
     });
-  },
+  }// componentDidMount()
 
-  render: function(){
+  render(){
     console.log('App->HomeAutomationApp->render()');
 
     return (
@@ -156,8 +155,8 @@ var HomeAutomationAppDashboard = React.createClass({
         <HomeAutoUtilitiesThumbNails />
       </div>      
     ); // return
-  } // render
-}); // HomeAutomationAppDashboard
+  } // render()
+}; // class - HomeAutomationAppDashboard
 
 
 export default HomeAutomationAppDashboard;

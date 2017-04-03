@@ -19,13 +19,6 @@ import ContactView from './componentPages/contactView';
 
 
 class App extends React.Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      useStubAPI: false
-    };
-  }// constructor()
-
 	render() {
 		return (
 			<div>

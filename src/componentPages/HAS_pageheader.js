@@ -4,7 +4,6 @@
 // aspects of the Home Automation Application. 
 //----------------------------------------------------------------------------
 import React from 'react';
-import globalsVars from './../config/globals';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
 
 class HomeAutoPageHeader extends React.Component {

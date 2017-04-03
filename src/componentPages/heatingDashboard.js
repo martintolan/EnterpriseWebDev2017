@@ -4,7 +4,6 @@
 // aspects of the Home Automation Application. 
 //----------------------------------------------------------------------------
 import React from 'react';
-import request from 'superagent';
 import globalsVars from './../config/globals';
 import HomeAutoPageHeader from './HAS_pageheader';
 import Grid from 'react-bootstrap/lib/Grid';
@@ -14,11 +13,11 @@ import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import Label from 'react-bootstrap/lib/Label';
 import { Chart } from 'react-google-charts';
 import Thermometer from "react-thermometer";
-import Slider from 'react-rangeslider'
-import 'react-rangeslider/lib/index.css'
-import APIHeatingStub from './../test/stubAPIHeating'
-import APIHeating from './../api/HeatingAPI'
-import defaultTemperatureData from './../config/defaultData'
+import Slider from 'react-rangeslider';
+import 'react-rangeslider/lib/index.css';
+import APIHeatingStub from './../test/stubAPIHeating';
+import APIHeating from './../api/HeatingAPI';
+import defaultTemperatureData from './../config/defaultData';
 
 
 //------------------------------------------------------
@@ -27,8 +26,8 @@ import defaultTemperatureData from './../config/defaultData'
 // temperature. 
 //
 //------------------------------------------------------
-var HomeAutoThometer = React.createClass({
-  render: function(){
+class HomeAutoThometer extends React.Component {
+  render() {
     console.log('heatingDashBoard.js->HomeAutoThometer->render()');
 
     return (
@@ -46,7 +45,7 @@ var HomeAutoThometer = React.createClass({
       </div> 
     ); // return
   } // render()
-}); // class - HomeAutoThometer
+}; // class - HomeAutoThometer
 
 
 //------------------------------------------------------
@@ -56,8 +55,8 @@ var HomeAutoThometer = React.createClass({
 // passed in through the props. 
 //
 //------------------------------------------------------
-var HomeAutoGraph = React.createClass({	
-  render: function(){
+class HomeAutoGraph extends React.Component {	
+  render() {
     console.log('heatingDashBoard.js->HomeAutoGraph->render()');
 
     return (
@@ -75,7 +74,7 @@ var HomeAutoGraph = React.createClass({
       </div>
     ); // return
   } // render()
-}); // class - HomeAutoGraph
+}; // class - HomeAutoGraph
 
 
 //------------------------------------------------------
@@ -86,31 +85,35 @@ var HomeAutoGraph = React.createClass({
 // movement events.
 //
 //------------------------------------------------------
-var HomeAutoTempSlider = React.createClass({
-	getInitialState: function() {
-    return { 
-    	heatingIdentifier: '',    	
+class HomeAutoTempSlider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      heatingIdentifier: '',
       setPoint: -1
     };
-  }, // getInitialState
+    this.handleTemperatureRequestChange = this.handleTemperatureRequestChange.bind(this);
+    this.handleTemperatureRequestComplete = this.handleTemperatureRequestComplete.bind(this);
+  }// constructor()
 
-  componentWillMount : function() {
+  componentWillMount() {
+    console.log('heatingDashBoard.js->HomeAutoTempSlider->componentWillMount()');
   	this.setState({ heatingIdentifier: this.props.heatingIdentifier });
   	this.setState({ setPoint: this.props.setPoint });
-  },
+  }
 
-  handleTemperatureRequestChange: function(value) {
+  handleTemperatureRequestChange(value) {
   	console.log('handleTemperatureRequestChange event...');
-    this.setState({ setPoint: value })
-  },
+    this.setState({ setPoint: value });
+  }
 
-  handleTemperatureRequestComplete: function(value) {
+  handleTemperatureRequestComplete(value) {
   	var requestedTemperature = this.state.setPoint;
   	console.log('handleTemperatureRequestComplete event...' + requestedTemperature);
     this.props.changeTempHandler(this.state.heatingIdentifier, requestedTemperature);
-  },
+  }
 
-  render: function(){
+  render(){
     console.log('heatingDashBoard.js->HomeAutoTempSlider->render()');
     var valueNumber = parseInt(this.state.setPoint, 10);
 
@@ -131,7 +134,7 @@ var HomeAutoTempSlider = React.createClass({
       </div>
     ); // return
   } // render()
-}); // class - HomeAutoTempSlider
+}; // class - HomeAutoTempSlider
 
 
 //------------------------------------------------------
@@ -142,20 +145,23 @@ var HomeAutoTempSlider = React.createClass({
 // the on-off request back to the parent. 
 //
 //------------------------------------------------------
-var HomeAutoHeatingOnOffButtons = React.createClass({
-	getInitialState: function() {
-    return { 
-    	heatingIdentifier: '',
+class HomeAutoHeatingOnOffButtons extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      heatingIdentifier: '',
       heatingOn: false
     };
-  }, // getInitialState
+    this.handleTurnHeatingOn = this.handleTurnHeatingOn.bind(this);
+    this.handleTurnHeatingOff = this.handleTurnHeatingOff.bind(this);
+  }// constructor()
 
-  componentWillMount : function() {
+  componentWillMount() {
   	this.setState({ heatingOn: this.props.heatingState });
   	this.setState({ heatingIdentifier: this.props.heatingIdentifier });
-  },
+  }
 
-  handleTurnHeatingOn : function(e) {
+  handleTurnHeatingOn(e) {
     console.log("TurnHeatingOn button pressed for: " + this.state.heatingIdentifier);
     e.preventDefault();
 
@@ -164,9 +170,9 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
     	this.props.turnHeatingOnHandler(this.state.heatingIdentifier);
     	this.setState({ heatingOn: true });
     }
-  }, // handleTurnHeatingOn
+  } // handleTurnHeatingOn
 
-  handleTurnHeatingOff : function(e) {
+  handleTurnHeatingOff(e) {
     console.log("TurnHeatingOff button pressed for: " + this.state.heatingIdentifier);
     e.preventDefault();
 
@@ -175,10 +181,10 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
     	this.props.turnHeatingOffHandler(this.state.heatingIdentifier);
     	this.setState({ heatingOn: false });
     }
-  }, // handleTurnHeatingOff
+  } // handleTurnHeatingOff
 
 
-  render: function(){
+  render(){
     console.log('heatingDashBoard.js->HomeAutoHeatingOnOffButtons->render()');
     var fields = [
       <div className='heatstatusbuttons' >
@@ -208,7 +214,7 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
 			</div>
     ); // return
   } // render()
-}); // class - HomeAutoHeatingOnOffButtons
+}; // class - HomeAutoHeatingOnOffButtons
 
 
 //------------------------------------------------------
@@ -218,9 +224,9 @@ var HomeAutoHeatingOnOffButtons = React.createClass({
 // based on the props passed into it.
 //
 //------------------------------------------------------
-var HomeAutoHeatingGrids = React.createClass({
+class HomeAutoHeatingGrids extends React.Component{
 
-  render: function(){
+  render(){
     console.log('heatingDashBoard.js->HomeAutoHeatingGrids->render()');
 
     var titleForThisArea = this.props.titleForThisArea;
@@ -276,7 +282,7 @@ var HomeAutoHeatingGrids = React.createClass({
 			</div>
     ); // return
   } // render()
-}); // class - HomeAutoHeatingGrids
+}; // class - HomeAutoHeatingGrids
 
 
 //------------------------------------------------------
@@ -288,9 +294,10 @@ var HomeAutoHeatingGrids = React.createClass({
 // stateless components they can be reused multiple times.
 //
 //------------------------------------------------------
-var HomeAutoTableContainer = React.createClass({
-  getInitialState: function() {
-    return { 
+class HomeAutoTableContainer extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       upstairsHeatingOptions: { 
         legend: true, 
         title: 'Temperature - Upstairs',
@@ -314,9 +321,9 @@ var HomeAutoTableContainer = React.createClass({
         },
       ]
     };
-  }, // getInitialState
+  }// constructor()
 
-  render: function(){
+  render(){
     console.log('heatingDashBoard.js->HomeAutoTableContainer->render()');    
 		var currentTempDownStairs = this.props.dataDownStairs.currentTemp;
 		var graphOptionsDownStairs = this.state.downstairsHeatingOptions;
@@ -386,7 +393,7 @@ var HomeAutoTableContainer = React.createClass({
 			</div>
     ); // return
   } // render()
-}); // class - HomeAutoTableContainer
+}; // class - HomeAutoTableContainer
 
 
 //----------------------------------------------------------------------------
@@ -395,15 +402,19 @@ var HomeAutoTableContainer = React.createClass({
 // Parent to all of the items displayed in this page view.
 //
 //----------------------------------------------------------------------------
-var HeatingDashboard = React.createClass({
-  getInitialState: function() {
-    return { 
+class HeatingDashboard extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {
       useStubAPI: globalsVars.useStubAPI,
       apiToUse: null
     };
-  }, // getInitialState
+    this.turnHeatingOnRequest = this.turnHeatingOnRequest.bind(this);
+    this.turnHeatingOffRequest = this.turnHeatingOffRequest.bind(this);
+    this.modifyTemperatureRequest = this.modifyTemperatureRequest.bind(this);
+  }// constructor()
 
-  componentWillMount : function() {
+  componentWillMount() {
     console.log('heatingDashBoard.js->HeatingDashboard->componentWillMount() - Clearing Local Storage');
     if(false === this.state.useStubAPI) {
       this.setState({ apiToUse: new APIHeating() });
@@ -412,9 +423,9 @@ var HeatingDashboard = React.createClass({
       this.setState({ apiToUse: new APIHeatingStub() });
     }
     //localStorage.clear();
-  },
+  }
 
-  componentDidMount : function() {
+  componentDidMount() {
     if((!localStorage.getItem('DownStairsTemperatureData')) || (!localStorage.getItem('UpStairsTemperatureData')))
     {
       var p = this.state.apiToUse.getHeatingDataDownStairs();
@@ -423,35 +434,35 @@ var HeatingDashboard = React.createClass({
         localStorage.setItem('DownStairsTemperatureData', response);
         var p2 = this.state.apiToUse.getHeatingDataUpStairs();
         p2.then( response => { 
-          localStorage.deleteItem('DownStairsTemperatureData');
+          localStorage.deleteItem('UpStairsTemperatureData');
           localStorage.setItem('UpStairsTemperatureData', response) ;
           this.setState({});
         });
       });
     }
-  },
+  }
   
   
-  turnHeatingOnRequest : function(area) {
+  turnHeatingOnRequest(area) {
     console.log("Calling the turnHeatingOnRequest callback function..." + area);
     this.state.apiToUse.switchHeating(area, 1).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
 
-  }, // turnHeatingOnRequest
+  } // turnHeatingOnRequest
 
-  turnHeatingOffRequest : function(area) {
+  turnHeatingOffRequest(area) {
     console.log("Calling the turnHeatingOffRequest callback function..." + area);
     this.state.apiToUse.switchHeating(area, 0).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
-  }, // turnHeatingOffRequest
+  } // turnHeatingOffRequest
 
-  modifyTemperatureRequest : function(area, value) {
+  modifyTemperatureRequest(area, value) {
     console.log("Calling the modifyTemperatureSetPointRequest callback function..." + area);
     this.state.apiToUse.updateHeatingSetPoint(area, value).then ( response => {
     }).catch( error => {console.log( 'Update failed for ${error}' )}) ;
-  }, // modifyTemperatureSetPointRequest
+  } // modifyTemperatureSetPointRequest
 	
-  render: function(){
+  render(){
     console.log('heatingDashBoard.js->HeatingDashboard->render()');
     var convertedDefaultData = JSON.stringify(defaultTemperatureData);
     var defaultTempData = JSON.parse(convertedDefaultData);
@@ -474,7 +485,7 @@ var HeatingDashboard = React.createClass({
 			</div>
     ); // return
   } // render()
-}); // class - HeatingDashboard
+}; // class - HeatingDashboard
 
 
 export default HeatingDashboard;

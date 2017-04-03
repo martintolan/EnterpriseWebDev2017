@@ -1,5 +1,5 @@
 var globalsVars = {
-	useStubAPI: false
+	useStubAPI: true
 }
 
 export default globalsVars;
